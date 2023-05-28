@@ -21,6 +21,11 @@ class BeeNode:
     subtree_size: int = 1
 
     def get_child_for_key(self, point: Point) -> BeeNode | None:
+        """
+         O(1)
+         This function performs a simple conditional check to determine which child to return.
+         The time complexity is therefore constant.
+        """
         x0, y0, z0 = self.key
         x, y, z = point
 
@@ -42,6 +47,9 @@ class ThreeDeeBeeTree(Generic[I]):
     def __init__(self) -> None:
         """
             Initialises an empty 3DBT
+            O(1)
+            The initialization of the tree just sets the root to None and the length to 0,
+            hence it is a constant time operation.
         """
         self.root = None
         self.length = 0
@@ -49,17 +57,28 @@ class ThreeDeeBeeTree(Generic[I]):
     def is_empty(self) -> bool:
         """
             Checks to see if the 3DBT is empty
+             O(1)
+             The function just checks if the length of the tree is 0,
+             which is a constant time operation.
         """
         return len(self) == 0
 
     def __len__(self) -> int:
-        """ Returns the number of nodes in the tree. """
+        """
+        Returns the number of nodes in the tree.
+        O(1)
+        The function returns the length attribute of the tree,
+        which is a constant time operation.
+        """
 
         return self.length
 
     def __contains__(self, key: Point) -> bool:
         """
             Checks to see if the key is in the 3DBT
+            O(N)
+            This function needs to traverse through potentially all nodes in the tree to find the key,
+            where N is the number of nodes in the tree.
         """
         try:
             self.get_tree_node_by_key(key)
@@ -70,11 +89,18 @@ class ThreeDeeBeeTree(Generic[I]):
     def __getitem__(self, key: Point) -> I:
         """
             Attempts to get an item in the tree, it uses the Key to attempt to find it
+            O(N)
+            Like __contains__, this function may also need to traverse all nodes to find the item for a given key.
         """
         node = self.get_tree_node_by_key(key)
         return node.item
 
     def get_tree_node_by_key(self, key: Point) -> BeeNode:
+        """
+        O(N)
+        The function traverses the tree to find a node with a given key.
+        In the worst-case scenario, it may have to visit all nodes.
+        """
         current = self.root
         while current is not None:
             if current.key == key:
@@ -84,11 +110,19 @@ class ThreeDeeBeeTree(Generic[I]):
         raise KeyError("Key not found")
 
     def __setitem__(self, key: Point, item: I) -> None:
+        """
+        O(N)
+        In the worst case,
+        insertion might need to traverse all nodes in the tree to find the correct spot to insert the new item.
+        """
         self.root = self.insert_aux(self.root, key, item)
 
     def insert_aux(self, current: BeeNode, key: Point, item: I) -> BeeNode:
         """
             Attempts to insert an item into the tree, it uses the Key to insert it
+            O(1)
+            This function just checks if all eight children of a node are None,
+            which is a constant time operation.
         """
         if current is None:
             self.length += 1

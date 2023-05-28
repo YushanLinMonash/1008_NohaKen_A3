@@ -26,7 +26,7 @@ class MaxHeap(Generic[T]):
         :pre: 1 <= k <= self.length
         """
         item = self.the_array[k]
-        while k > 1 and item > self.the_array[k // 2]:
+        while k > 1 and item[0] > self.the_array[k // 2][0]:
             self.the_array[k] = self.the_array[k // 2]
             k = k // 2
         self.the_array[k] = item
