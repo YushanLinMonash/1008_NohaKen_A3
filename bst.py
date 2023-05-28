@@ -12,7 +12,6 @@ from typing import TypeVar, Generic
 from node import TreeNode
 import sys
 
-
 # generic types
 K = TypeVar('K')
 I = TypeVar('I')
@@ -114,7 +113,7 @@ class BinarySearchTree(Generic[K, I]):
         if current is None:  # key not found
             raise ValueError('Deleting non-existent item')
         elif key < current.key:
-            current.left  = self.delete_aux(current.left, key)
+            current.left = self.delete_aux(current.left, key)
             current.subtree_size += 1
         elif key > current.key:
             current.right = self.delete_aux(current.right, key)
@@ -135,7 +134,7 @@ class BinarySearchTree(Generic[K, I]):
 
             # general case => find a successor
             succ = self.get_successor(current)
-            current.key  = succ.key
+            current.key = succ.key
             current.item = succ.item
             current.right = self.delete_aux(current.right, succ.key)
 
@@ -157,7 +156,6 @@ class BinarySearchTree(Generic[K, I]):
         else:
             return None
 
-
     def get_minimal(self, current: TreeNode) -> TreeNode:
         """
             Get a node having the smallest key in the current sub-tree.
@@ -171,7 +169,6 @@ class BinarySearchTree(Generic[K, I]):
 
     def is_leaf(self, current: TreeNode) -> bool:
         """ Simple check whether or not the node is a leaf. """
-
         return current.left is None and current.right is None
 
     def draw(self, to=sys.stdout):
@@ -188,7 +185,7 @@ class BinarySearchTree(Generic[K, I]):
             print('{0}{1}'.format(real_prefix, str(current.key)), file=to)
 
             if current.left or current.right:
-                self.draw_aux(current.left,  prefix=prefix + '\u2551 ', final='\u255f\u2500', to=to)
+                self.draw_aux(current.left, prefix=prefix + '\u2551 ', final='\u255f\u2500', to=to)
                 self.draw_aux(current.right, prefix=prefix + '  ', final='\u2559\u2500', to=to)
         else:
             real_prefix = prefix[:-2] + final
